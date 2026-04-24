@@ -186,6 +186,8 @@ def test_charge_spin_handling(direct_checkpoint, charge: float, spin: float) -> 
         [mol], device=DEVICE, dtype=DTYPE, system_extras_map=CHARGE_SPIN_EXTRAS_MAP
     )
 
+    assert state.has_extras("charge")
+    assert state.has_extras("spin")
     assert state.charge[0].item() == charge
     assert state.spin[0].item() == spin
 
@@ -208,12 +210,12 @@ def test_charge_spin_handling(direct_checkpoint, charge: float, spin: float) -> 
 
 def _add_default_charge_spin(state: ts.SimState) -> ts.SimState:
     """Inject zero charge and spin extras for UMA models that require them."""
-    if not hasattr(state, "charge"):
-        state._system_extras["charge"] = torch.zeros(
+    if not state.has_extras("charge"):
+        state._system_extras[SystemExtras.CHARGE] = torch.zeros(
             state.n_systems, dtype=state.dtype, device=state.device
         )
-    if not hasattr(state, "spin"):
-        state._system_extras["spin"] = torch.zeros(
+    if not state.has_extras("spin"):
+        state._system_extras[SystemExtras.SPIN] = torch.zeros(
             state.n_systems, dtype=state.dtype, device=state.device
         )
     return state
