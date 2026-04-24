@@ -23,11 +23,9 @@ try:
     import torch_sim as ts
     from torch_sim.models.interface import ModelInterface
     from torch_sim.transforms import pbc_wrap_batched
-    from torch_sim.typing import SystemExtras
 except ImportError:
     ts = None  # type: ignore[assignment]
     ModelInterface = None  # type: ignore[assignment]
-    SystemExtras = None  # type: ignore[assignment]
     pbc_wrap_batched = None  # type: ignore[assignment]
 
 

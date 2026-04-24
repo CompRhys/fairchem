@@ -211,11 +211,11 @@ def test_charge_spin_handling(direct_checkpoint, charge: float, spin: float) -> 
 def _add_default_charge_spin(state: ts.SimState) -> ts.SimState:
     """Inject zero charge and spin extras for UMA models that require them."""
     if not state.has_extras("charge"):
-        state._system_extras[SystemExtras.CHARGE] = torch.zeros(
+        state.charge = torch.zeros(
             state.n_systems, dtype=state.dtype, device=state.device
         )
     if not state.has_extras("spin"):
-        state._system_extras[SystemExtras.SPIN] = torch.zeros(
+        state.spin = torch.zeros(
             state.n_systems, dtype=state.dtype, device=state.device
         )
     return state
